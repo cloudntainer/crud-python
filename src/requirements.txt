@@ -11,3 +11,6 @@ requests>=2.0.0
 python-dotenv>=0.15.0
 requests-mock>=1.9.3
 marshmallow
+pytest-cov
+flake8
+bandit
