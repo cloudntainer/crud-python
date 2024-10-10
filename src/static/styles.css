@@ -1,0 +1,148 @@
+:root {
+    --primary-color: #007bff;
+    --danger-color: #dc3545;
+    --hover-primary: #0056b3;
+    --hover-danger: #c82333;
+
+    --font-size: 16px;
+    --border-radius: 5px;
+    --button-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+
+    --text-color: #333;
+    --background-color: #f9f9f9;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+h1 {
+    text-align: center;
+    color: var(--text-color);
+}
+
+form {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+input {
+    padding: 10px;
+    font-size: var(--font-size);
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    margin-bottom: 10px;
+    width: calc(100% - 22px);
+}
+
+.btn {
+    padding: 10px 15px;
+    font-size: var(--font-size);
+    margin-left: 10px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    transition: background-color 0.3s, transform 0.2s;
+    cursor: pointer;
+    box-shadow: var(--button-shadow);
+    display: inline-flex;
+    align-items: center;
+}
+
+.btn:hover {
+    background-color: var(--hover-primary);
+}
+
+.btn:active {
+    transform: scale(0.95);
+}
+
+.btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+}
+
+.btn-danger:hover {
+    background-color: var(--hover-danger);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 40px;
+}
+
+th, td {
+    border: 1px solid var(--text-color);
+    padding: 12px;
+    text-align: left;
+}
+
+td {
+    background-color: #fff;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+    transition: background-color 0.3s;
+}
+
+tr:hover {
+    background-color: #e0e0e0;
+}
+
+th {
+    background-color: var(--hover-primary);
+    color: white;
+}
+
+td:last-child {
+    text-align: center;
+}
+
+.btn:focus {
+    outline: 2px solid var(--hover-primary);
+    outline-offset: 2px;
+}
+
+input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+#statusMessage {
+    margin: 20px 0;
+    padding: 10px;
+    border-radius: var(--border-radius);
+    background-color: #e7f3fe;
+    color: #31708f;
+    border: 1px solid #bce8f1;
+}
+
+@media (max-width: 600px) {
+    input, button {
+        width: 100%;
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+}

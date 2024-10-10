@@ -1,0 +1,25 @@
+services:
+  backend:
+    build:
+      context: ./src
+    ports:
+      - "50010:50010"
+    volumes:
+      - ./src:/app
+    networks:
+      - app-network
+
+  frontend:
+    image: nginx:alpine
+    volumes:
+      - ./src/static:/usr/share/nginx/html
+      - ./src/templates:/usr/share/nginx/html
+      - ./infrastructure/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
