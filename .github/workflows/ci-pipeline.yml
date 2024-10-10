@@ -1,6 +1,10 @@
 name: Validate Pipeline
 
 on:
+  push:
+    branches:
+      - develop
+      - test
   workflow_run:
     workflows: ["Setup Pipeline"]
     types:
