@@ -5,6 +5,12 @@ on:
     branches:
       - develop
       - test
+
+  pull_request:
+    branches:
+      - develop
+      - test
+      
   workflow_run:
     workflows: ["Validate Pipeline"]
     types:
