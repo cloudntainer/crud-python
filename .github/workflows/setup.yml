@@ -6,6 +6,11 @@ on:
       - develop
       - test
 
+  pull_request:
+    branches:
+      - develop
+      - test
+
 permissions:
   contents: write
   issues: write
