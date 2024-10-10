@@ -53,7 +53,9 @@
 
 ## ⚙️ System Overview
 
-- **Target Audience**: This architecture is aimed at LatAm Airlines data analysts, developers, and business intelligence teams who require robust data processing and analysis capabilities.
+- **Target Audience**:
+
+  - This architecture is aimed at fullstack developers teams who require robust data processing and analysis capabilities.
 
 - **Use Case**:
 
@@ -65,7 +67,7 @@
 
   - The production environment is deployed via **Render**, and **GitHub Actions** is used for continuous integration and deployment (CI/CD).
 
-- **Site Reliability Engineering (SRE) Integration.**
+- **Site Reliability Engineering (SRE) Integration**:
 
   - Integrating principles ensures reliable, available, and high-performance systems, enhancing operational efficiency and the end-user experience.
 
