@@ -1,17 +1,10 @@
 name: Build Pipeline
 
 on:
-  push:
-    branches:
-      - develop
-      - test
-
-permissions:
-  contents: write
-  issues: write
-  pull-requests: write
-  deployments: write
-  packages: write
+  workflow_run:
+    workflows: ["Validate Pipeline"]
+    types:
+      - completed
 
 jobs:
   build:
