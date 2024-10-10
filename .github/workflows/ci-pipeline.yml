@@ -1,52 +1,13 @@
-name: CI Pipeline
+name: Validate Pipeline
 
 on:
-  push:
-    branches:
-      - test
-      - develop
-  pull_request:
-    branches:
-      - main
-      - develop
-  workflow_dispatch:
-
-permissions:
-  contents: write
-  issues: write
-  pull-requests: write
-  deployments: write
-  packages: write
+  workflow_run:
+    workflows: ["Setup Pipeline"]
+    types:
+      - completed
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Set up Python
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.12"
-
-    - name: Cache pip dependencies
-      uses: actions/cache@v3
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('src/requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-
-    - name: Set PYTHONPATH
-      run: echo "PYTHONPATH=$(pwd)/src" >> $GITHUB_ENV
-
-    - name: Set environment variable
-      run: echo "ENVIRONMENT=test" >> $GITHUB_ENV
-
   validate:
-    needs: setup
     runs-on: ubuntu-latest
 
     steps:
