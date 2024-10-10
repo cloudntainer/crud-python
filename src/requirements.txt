@@ -12,4 +12,3 @@ requests-mock>=1.9.3
 pytest-cov
 flake8
 bandit
-requests-mock>=1.9.3
