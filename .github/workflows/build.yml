@@ -1,9 +1,5 @@
 name: Build Pipeline
 
-concurrency:
-  group: ${{ github.ref }}-${{ github.sha }}
-  cancel-in-progress: true
-
 on:   
   workflow_run:
     workflows: ["Validate Pipeline"]
