@@ -1,0 +1,38 @@
+name: Validate Pipeline
+
+on:
+  push:
+    branches:
+      - develop
+      - test
+
+  pull_request:
+    branches:
+      - develop
+      - test
+
+  workflow_run:
+    workflows: ["Setup Pipeline"]
+    types:
+      - completed
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: pip install --upgrade -r src/requirements.txt
+
+    - name: Run flake8 (Linting)
+      run: flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
+    - name: Run pytest with coverage
+      run: pytest --cov=src src/tests/ci --cov-report=html:src/tests/ci/coverage.html
+
+    - name: Run Bandit (Security Check)
+      run: bandit -r .
+

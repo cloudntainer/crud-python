@@ -1,6 +1,6 @@
 name: Build Pipeline
 
-on:     
+on:
   workflow_run:
     workflows: ["Validate Pipeline"]
     types:
