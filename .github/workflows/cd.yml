@@ -5,6 +5,8 @@ on:
     workflows: ["Build Pipeline"]
     types:
       - completed
+    branches:
+      - tests
 
 jobs:
   cd:
