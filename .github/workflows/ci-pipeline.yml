@@ -10,7 +10,7 @@ on:
     branches:
       - develop
       - test
-      
+
   workflow_run:
     workflows: ["Setup Pipeline"]
     types:
@@ -35,3 +35,4 @@ jobs:
 
     - name: Run Bandit (Security Check)
       run: bandit -r .
+
