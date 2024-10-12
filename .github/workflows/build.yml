@@ -26,7 +26,6 @@ jobs:
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-${{ hashFiles('src/requirements.txt') }}
-        key: ${{ runner.os }}-pip-${{ hashFiles('src/requirements.txt') }}
         restore-keys: |
           ${{ runner.os }}-pip-
 
