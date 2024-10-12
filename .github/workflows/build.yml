@@ -48,3 +48,7 @@ jobs:
 
     - name: Push Docker image
       run: docker push "${{ secrets.DOCKER_USERNAME }}/my-app:${{ github.sha }}"
+
+    - name: Build Conclusion Log
+      run: |
+        echo "Build pipeline concluded with status: ${{ job.status }}"
