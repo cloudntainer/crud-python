@@ -5,6 +5,8 @@ on:
     workflows: ["Setup Pipeline"]
     types:
       - completed
+    branches:
+      - tests
 
 jobs:
   validate:
