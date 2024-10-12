@@ -17,11 +17,7 @@ jobs:
     steps:
       - name: Log the trigger
         run: |
-          if [ "${{ github.event_name }}" == "push" ]; then
-            echo "Workflow triggered by: push on branch ${GITHUB_REF:-unknown branch}"
-          else
-            echo "Workflow triggered without a valid event name."
-          fi
+          echo "Workflow triggered by: ${{ github.event_name }} on branch ${GITHUB_REF:-unknown branch}"
 
       - name: Check workflow conclusion
         run: |
