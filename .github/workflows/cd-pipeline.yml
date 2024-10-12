@@ -12,9 +12,25 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.ref == 'refs/heads/test' }}
     
     steps:
+      - name: Log the trigger
+        run: |
+          if [ "${{ github.event_name }}" ]; then
+            echo "Workflow triggered by: ${{ github.event_name }} on branch ${GITHUB_REF:-unknown branch}"
+          else
+            echo "Workflow triggered without a valid event name."
+          fi
+
+      - name: Check workflow conclusion
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_run" ]; then
+            echo "Workflow conclusion: ${{ github.event.workflow_run.conclusion }}"
+          else
+            echo "Not a workflow_run event, skipping conclusion log."
+          fi
+        
       - name: Deploy to Render
         run: |
           response=$(curl -s -o /dev/null -w "%{http_code}" -X POST https://api.render.com/v1/deploy/${{ secrets.RENDER_SERVICE_ID }} \
