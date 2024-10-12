@@ -1,9 +1,5 @@
 name: CD Pipeline
 
-concurrency:
-  group: ${{ github.ref }}
-  cancel-in-progress: true
-
 on:
   workflow_run:
     workflows: ["Build Pipeline"]
