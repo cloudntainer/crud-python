@@ -1,5 +1,9 @@
 name: CD Pipeline
 
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   workflow_run:
     workflows: ["Build Pipeline"]
@@ -9,12 +13,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch != 'test' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
-      - name: Log Execution
-        run: echo "Deploy job is starting..."
-
       - name: Trigger Log
         run: |
           echo "Workflow triggered by: workflow_run on workflow '${{ github.event.workflow_run.name }}'"
