@@ -12,7 +12,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/test'
+    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/test' || github.event.workflow_run.conclusion == 'success' }}
+    
     steps:
       - name: Deploy to Render
         run: |
@@ -22,7 +23,7 @@ jobs:
           -d '{"serviceId":"${{ secrets.RENDER_SERVICE_ID }}"}')
 
           if [ "$response" -ne 200 ]; then
-            echo "El despliegue falló con el código de respuesta $response"
+            echo "Deployment failed with response code $response"
             exit 1
           fi
-          echo "El despliegue fue exitoso!"
+          echo "Deployment was successful!"
