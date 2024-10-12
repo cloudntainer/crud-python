@@ -2,7 +2,7 @@ name: CD Pipeline
 
 on:
   workflow_run:
-    workflows: ["Build Pipeline"]  # Nombre exacto de tu pipeline de Build
+    workflows: ["Build Pipeline"]
     types:
       - completed
 
