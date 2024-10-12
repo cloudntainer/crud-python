@@ -2,7 +2,7 @@ name: CD Pipeline
 
 on:
   workflow_run:
-    workflows: ["Build Pipeline"]
+    workflows: ["Build Pipeline"]  # Nombre exacto de tu pipeline de Build
     types:
       - completed
 
@@ -20,7 +20,7 @@ jobs:
       - name: Workflow Conclusion Log
         run: |
           echo "Workflow conclusion: ${{ github.event.workflow_run.conclusion }}"
-        
+
       - name: Deploy to Render
         run: |
           response=$(curl -s -o /dev/null -w "%{http_code}" -X POST https://api.render.com/v1/deploy/${{ secrets.RENDER_SERVICE_ID }} \
