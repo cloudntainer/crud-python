@@ -1,12 +1,11 @@
 name: Validate Pipeline
 
-on:      
+on:
   workflow_run:
     workflows: ["Setup Pipeline"]
     types:
       - completed
-    branches:
-      - tests
+
 
 jobs:
   validate:
