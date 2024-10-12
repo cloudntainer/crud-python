@@ -1,7 +1,7 @@
 name: Build Pipeline
 
 concurrency:
-  group: ${{ github.ref }}
+  group: ${{ github.ref }}-${{ github.sha }}
   cancel-in-progress: true
 
 on:
