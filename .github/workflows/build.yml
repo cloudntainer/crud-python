@@ -5,6 +5,8 @@ on:
     workflows: ["Validate Pipeline"]
     types:
       - completed
+    branches:
+      - tests
 
 jobs:
   build:
