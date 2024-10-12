@@ -1,0 +1,26 @@
+name: CD Pipeline
+
+on:
+  workflow_run:
+    workflows: ["Build Pipeline"]
+    types:
+      - completed
+    branches:
+      - tests
+
+jobs:
+  cd:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Render
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" -X POST https://api.render.com/v1/deploy/${{ secrets.RENDER_SERVICE_ID }} \
+          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+          -H "Content-Type: application/json" \
+          -d '{"serviceId":"${{ secrets.RENDER_SERVICE_ID }}"}')
+
+          if [ "$response" -ne 200 ]; then
+            echo "Deployment failed with response code $response"
+            exit 1
+          fi
+          echo "Deployment was successful!"

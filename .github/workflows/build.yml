@@ -1,20 +1,12 @@
 name: Build Pipeline
 
-on:
-  push:
-    branches:
-      - develop
-      - test
-
-  pull_request:
-    branches:
-      - develop
-      - test
-      
+on:     
   workflow_run:
     workflows: ["Validate Pipeline"]
     types:
       - completed
+    branches:
+      - tests
 
 jobs:
   build:
@@ -33,7 +25,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('src/requirements-dev.txt') }}
+        key: ${{ runner.os }}-pip-${{ hashFiles('src/requirements.txt') }}
         restore-keys: |
           ${{ runner.os }}-pip-
 
