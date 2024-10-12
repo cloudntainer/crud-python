@@ -14,6 +14,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Create VERSION file if it doesn't exist
+        run: |
+          if [ ! -f VERSION ]; then
+            echo "0.1.0" > VERSION  # Cambia a la versión inicial que desees
+          fi
+
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
