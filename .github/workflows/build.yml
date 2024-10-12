@@ -14,10 +14,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v3
-        with:
-          python-version: "3.12"
+      - name: Create VERSION file if not exists
+        run: |
+          if [ ! -f VERSION ]; then
+            echo "0.1.0" > VERSION  # Establece una versión inicial
+          fi
 
       - name: Read current version
         id: get_version
@@ -31,7 +32,7 @@ jobs:
         run: |
           VERSION="${{ env.VERSION }}"
           IFS='.' read -r major minor patch <<< "$VERSION"
-          patch=$((patch + 1)) # Increment the patch version
+          patch=$((patch + 1))  # Incrementa el número de parche
           NEW_VERSION="$major.$minor.$patch"
           echo "$NEW_VERSION" > VERSION
           echo "New version is $NEW_VERSION"
@@ -44,5 +45,3 @@ jobs:
           git add VERSION
           git commit -m "📦️ Bump version to ${{ steps.increment_version.outputs.NEW_VERSION }}"
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/cloudntainer/crud-python.git HEAD:refs/heads/main
-
-      # Resto de tu pipeline
