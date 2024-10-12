@@ -2,17 +2,28 @@ name: CD Pipeline
 
 on:
   workflow_run:
-    workflows: ["CI Pipeline"]
+    workflows: ["Build Pipeline"]
     types:
       - completed
+
+  push:
+    branches:
+      - test
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/test'
     steps:
       - name: Deploy to Render
         run: |
-          curl -X POST https://api.render.com/deploy/srv-XXXXXXXXXX \
+          response=$(curl -s -o /dev/null -w "%{http_code}" -X POST https://api.render.com/deploy/${{ secrets.RENDER_SERVICE_ID }} \
           -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
           -H "Content-Type: application/json" \
-          -d '{"serviceId":"srv-XXXXXXXXXX"}'
+          -d '{"serviceId":"${{ secrets.RENDER_SERVICE_ID }}"}')
+
+          if [ "$response" -ne 200 ]; then
+            echo "El despliegue falló con el código de respuesta $response"
+            exit 1
+          fi
+          echo "El despliegue fue exitoso!"
