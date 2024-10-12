@@ -1,44 +1,27 @@
-name: Build Pipeline
+name: CD Pipeline
 
-on:   
+on:
   workflow_run:
-    workflows: ["Validate Pipeline"]
+    workflows: ["Build Pipeline"]
     types:
       - completed
 
 jobs:
-  build:
+  cd:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Deploy to Render
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" -X POST https://api.render.com/v1/deploy/${{ secrets.RENDER_SERVICE_ID }} \
+          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+          -H "Content-Type: application/json" \
+          -d '{"serviceId":"${{ secrets.RENDER_SERVICE_ID }}"}')
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.12"
-
-    - name: Restore pip cache
-      uses: actions/cache@v4
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('src/requirements-dev.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-
-    - name: Install setuptools
-      run: python -m pip install --upgrade --force-reinstall pip setuptools
-
-    - name: Log in to Docker Hub
-      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-
-    - name: Build Docker image
-      run: cd src/ && docker build -t "${{ secrets.DOCKER_USERNAME }}/my-app:${{ github.sha }}" .
-
-    - name: Push Docker image
-      run: docker push "${{ secrets.DOCKER_USERNAME }}/my-app:${{ github.sha }}"
-
-    - name: Build Conclusion Log
-      run: |
-        echo "Build pipeline concluded with status: ${{ job.status }}"
+          if [ "$response" -ne 200 ]; then
+            echo "Deployment failed with response code $response"
+            exit 1
+          fi
+          echo "Deployment was successful!"
