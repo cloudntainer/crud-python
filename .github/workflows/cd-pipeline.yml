@@ -29,7 +29,4 @@ jobs:
           -d '{"serviceId":"${{ secrets.RENDER_SERVICE_ID }}"}')
 
           if [ "$response" -ne 200 ]; then
-            echo "Deployment failed with response code $response"
-            exit 1
-          fi
-          echo "Deployment was successful!"
+            echo "De
