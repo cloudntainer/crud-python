@@ -30,7 +30,7 @@ jobs:
           if [ "${{ github.event_name }}" == "workflow_run" ]; then
             echo "Workflow conclusion: ${{ github.event.workflow_run.conclusion }}"
           else
-            echo "Not a workflow_run event, skipping conclusion log."
+            echo "No workflow conclusion to log since this is a push event."
           fi
         
       - name: Deploy to Render
