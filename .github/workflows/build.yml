@@ -4,17 +4,7 @@ concurrency:
   group: ${{ github.ref }}-${{ github.sha }}
   cancel-in-progress: true
 
-on:
-  push:
-    branches:
-      - develop
-      - test
-
-  pull_request:
-    branches:
-      - develop
-      - test
-      
+on:   
   workflow_run:
     workflows: ["Validate Pipeline"]
     types:
