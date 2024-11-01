@@ -4,7 +4,7 @@ MarkupSafe==3.0.1
 Flask-CORS
 psycopg2-binary==2.9.9
 Flask-SQLAlchemy==3.1.1
-marshmallow==3.22.0
+marshmallow==3.23.1
 pytest
 requests>=2.0.0
 python-dotenv>=0.15.0
