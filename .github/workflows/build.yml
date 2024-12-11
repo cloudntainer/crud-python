@@ -5,8 +5,6 @@ on:
     workflows: ["Validate Pipeline"]
     types:
       - completed
-    branches:
-      - tests
 
 jobs:
   build:
@@ -26,6 +24,7 @@ jobs:
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-${{ hashFiles('src/requirements.txt') }}
+        key: ${{ runner.os }}-pip-${{ hashFiles('src/requirements.txt') }}
         restore-keys: |
           ${{ runner.os }}-pip-
 
@@ -40,3 +39,4 @@ jobs:
 
     - name: Push Docker image
       run: docker push "${{ secrets.DOCKER_USERNAME }}/my-app:${{ github.sha }}"
+      
