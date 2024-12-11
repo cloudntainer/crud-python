@@ -8,7 +8,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.12"
 requests = "^2.32.3"
-numpy = "^2.1.2"
+numpy = "^2.2.0"
 pandas = "^2.2.3"
 flask = "^3.0.3"
 python-dotenv = "^1.0.1"
@@ -20,7 +20,7 @@ safety = "^3.2.8"
 pytest = "^8.3.3"
 
 [tool.poetry.group.dev.dependencies]
-safety = "^3.2.8"
+safety = "^3.2.12"
 bandit = "^1.7.10"
 
 [build-system]

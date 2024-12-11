@@ -11,37 +11,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Create VERSION file if not exists
-        run: |
-          if [ ! -f VERSION ]; then
-            echo "0.1.0" > VERSION  # Establece una versión inicial
-          fi
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.12"
 
-      - name: Read current version
-        id: get_version
-        run: |
-          VERSION=$(cat VERSION)
-          echo "Current version is $VERSION"
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
+    - name: Restore pip cache
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('src/requirements.txt') }}
+        key: ${{ runner.os }}-pip-${{ hashFiles('src/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
 
-      - name: Increment version
-        id: increment_version
-        run: |
-          VERSION="${{ env.VERSION }}"
-          IFS='.' read -r major minor patch <<< "$VERSION"
-          patch=$((patch + 1))  # Incrementa el número de parche
-          NEW_VERSION="$major.$minor.$patch"
-          echo "$NEW_VERSION" > VERSION
-          echo "New version is $NEW_VERSION"
-          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+    - name: Install setuptools
+      run: python -m pip install --upgrade --force-reinstall pip setuptools
 
-      - name: Commit new version
-        run: |
-          git config --global user.email "${{ secrets.GIT_EMAIL }}"
-          git config --global user.name "${{ secrets.GIT_NAME }}"
-          git add VERSION
-          git commit -m "📦️ Bump version to ${{ steps.increment_version.outputs.NEW_VERSION }}"
-          git push https://x-access-token:${{ secrets.REPO_TOKEN }}@github.com/cloudntainer/crud-python.git HEAD:refs/heads/main
+    - name: Log in to Docker Hub
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+    - name: Build Docker image
+      run: cd src/ && docker build -t "${{ secrets.DOCKER_USERNAME }}/my-app:${{ github.sha }}" .
+
+    - name: Push Docker image
+      run: docker push "${{ secrets.DOCKER_USERNAME }}/my-app:${{ github.sha }}"
+      
