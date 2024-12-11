@@ -21,7 +21,7 @@ pytest = "^8.3.3"
 
 [tool.poetry.group.dev.dependencies]
 safety = "^3.2.12"
-bandit = "^1.7.10"
+bandit = "^1.8.0"
 
 [build-system]
 requires = ["poetry-core"]
