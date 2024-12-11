@@ -6,7 +6,6 @@ on:
     types:
       - completed
 
-
 jobs:
   validate:
     runs-on: ubuntu-latest
